@@ -1,0 +1,7 @@
+go 1.18
+
+use (
+	./1-golang-intro
+	./2-neo4j-go-driver
+	./3-gogm
+)
