@@ -1,1 +1,4 @@
 /.idea
+/3-gogm/vendor
+/2-neo4j-go-driver/vendor
+/1-golang-intro/vendor
