@@ -90,12 +90,12 @@ func TestUseSessions(outer *testing.T) {
 		}
 
 		// under the hood save depth runs in a transaction, you can also explicitly run it in a transaction with the following code
-		err = sess.ManagedTransaction(ctx, func(tx gogm.TransactionV2) error {
-			return tx.SaveDepth(ctx, neo4jTopic, 2)
-		})
-		if err != nil {
-			t.Fatal(err)
-		}
+		//err = sess.ManagedTransaction(ctx, func(tx gogm.TransactionV2) error {
+		//	return tx.SaveDepth(ctx, neo4jTopic, 2)
+		//})
+		//if err != nil {
+		//	t.Fatal(err)
+		//}
 		// these 2 approaches essentially do the same thing
 
 		// when gogm saves it is updating primary keys if the node is new and is detecting if relationships were added/deleted

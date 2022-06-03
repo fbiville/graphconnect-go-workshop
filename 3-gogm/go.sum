@@ -444,8 +444,8 @@ github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182aff
 github.com/miekg/pkcs11 v1.0.3/go.mod h1:XsNlhZGX73bx86s2hdc/FuaLm2CPZJemRLMA+WTFxgs=
 github.com/mindstand/go-cypherdsl v0.2.0 h1:/B6A8DhWk2RksdJxruy3+ii3Hvrr5JU+2vL3/oJMLrI=
 github.com/mindstand/go-cypherdsl v0.2.0/go.mod h1:swzbrSTuq3CRgFglg3aVThG9GBQmHXz6AY81q9mRMto=
-github.com/mindstand/gogm/v2 v2.3.3 h1:p2oVbW/KYrG4bBQ9Qai8lfks1PvLP9z2n+2cvRDIH+s=
-github.com/mindstand/gogm/v2 v2.3.3/go.mod h1:gzTyLsqwwIDGybTmNMSk34bUDcpeqS5zqxpD1Ml6jLs=
+github.com/mindstand/gogm/v2 v2.3.4 h1:j4rkg0VWk+ejBCpa29iE/wfeyzKUJ+T7OvMuGww0vfw=
+github.com/mindstand/gogm/v2 v2.3.4/go.mod h1:gzTyLsqwwIDGybTmNMSk34bUDcpeqS5zqxpD1Ml6jLs=
 github.com/mistifyio/go-zfs v2.1.2-0.20190413222219-f784269be439+incompatible/go.mod h1:8AuVvqP/mXw1px98n46wfvcGfQ4ci2FwoAjKYxuo3Z4=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/mapstructure v1.1.2/go.mod h1:FVVH3fgwuzCH5S8UJGiWEs2h04kUh9fWfEaFds41c1Y=

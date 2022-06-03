@@ -3,7 +3,7 @@ module graphconnect/gogm
 go 1.18
 
 require (
-	github.com/mindstand/gogm/v2 v2.3.3
+	github.com/mindstand/gogm/v2 v2.3.4
 	github.com/neo4j/neo4j-go-driver/v4 v4.4.2
 	github.com/testcontainers/testcontainers-go v0.13.0
 )
