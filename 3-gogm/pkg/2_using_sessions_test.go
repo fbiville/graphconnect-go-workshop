@@ -116,36 +116,48 @@ func TestUseSessions(outer *testing.T) {
 		}()
 
 		// make sure nothing's left from the previous test
-		clearDb(ctx, sess)
+		if err = clearDb(ctx, sess); err != nil {
+			t.Fatal("Failed to clear database, error:", err)
+		}
 		// insert our test data
-		insertData(ctx, sess)
+		if err = insertData(ctx, sess); err != nil {
+			t.Fatal("Failed to insert data, error:", err)
+		}
 
 		// when gogm saves it is updating primary keys if the node is new and is detecting if relationships were added/deleted
 		// you will notice LoadMap as a member of all nodes. Gogm uses this to track the state of the relationships between saves and loads
 
 		// the following is an example illustrating this
 		var loadedProject Project
-		if err = sess.LoadDepth(ctx, &loadedProject, "gogm", 1); err != nil {
-			t.Fatal(err)
+		err = sess.Query(ctx, `match p=(n:Project{name:$name})-[]-(:Person) return p`, map[string]interface{}{
+			"name": "GoGM",
+		}, &loadedProject)
+		if err != nil {
+			t.Fatal("Failed to query the project, error:", err)
+		}
+
+		if len(loadedProject.People) != 2 {
+			t.Fatal("No people were loaded in query")
 		}
 
 		// now we can illustrate removing a relationship
 		// TODO: wipe the people list in loadedProject
 
 		// now we can save the project at a depth of 1
-		if err = sess.SaveDepth(ctx, &loadedProject, 1); err != nil {
+		if err = sess.SaveDepth(ctx, &loadedProject, 2); err != nil {
 			t.Fatal(err.Error())
 		}
 
 		// now we can load the loaded struct back in 1 more time to see if the relationships reflect
 		var loadedProject2 Topic
+
 		if err = sess.LoadDepth(ctx, &loadedProject2, loadedProject.UUID, 1); err != nil {
 			t.Fatal(err)
 		}
 
 		// the length of projects should only be one now
 		if len(loadedProject2.Projects) == 0 {
-			t.Fatal("length of projects was not equal to 0")
+			t.Error("length of projects was not equal to 0")
 		}
 	})
 
@@ -166,18 +178,13 @@ func insertData(ctx context.Context, sess gogm.SessionV2) error {
 	eric := &Person{Name: "Eric"}
 	gogmProject := &Project{Name: "GoGM"}
 
-	nikita2gogm := &WorksOnEdge{Start: nikita, End: gogmProject, Role: "Load"}
+	nikita2gogm := &WorksOnEdge{Start: nikita, End: gogmProject, Role: "Lead"}
 	nikita.Projects = append(nikita.Projects, nikita2gogm)
 	gogmProject.People = append(gogmProject.People, nikita2gogm)
 
-	eric2gogm := &WorksOnEdge{Start: nikita, End: gogmProject, Role: "Load"}
+	eric2gogm := &WorksOnEdge{Start: eric, End: gogmProject, Role: "Lead"}
 	eric.Projects = append(eric.Projects, eric2gogm)
 	gogmProject.People = append(gogmProject.People, eric2gogm)
 
-	return sess.SaveDepth(ctx, gogmProject, 2)
-}
-
-// Helper that removes an index from a generic slice. The implementation isn't important here, we just wanted to play with generics :)
-func remove[T any](s []T, index int) []T {
-	return append(s[:index], s[index+1:]...)
+	return sess.SaveDepth(ctx, eric, 2)
 }

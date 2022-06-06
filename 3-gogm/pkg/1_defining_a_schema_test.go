@@ -78,7 +78,7 @@ type Project struct {
 	// Relationships
 	People []*WorksOnEdge `gogm:"direction=incoming;relationship=WORKS_ON"`
 	// TODO: GoGM needs a tag set to assign this struct to the other side of the `RELATES_TO` relationship
-	Topics []*Topic
+	Topics []*Topic `gogm:"direction=outgoing;relationship=RELATES_TO"`
 }
 
 // WorksOnEdge implements gogm.Edge
@@ -88,7 +88,7 @@ type WorksOnEdge struct {
 	Start *Person
 	End   *Project
 	// TODO: Eric was working on this code very late at night and left an error :P
-	Role string `gogm:"name=name"`
+	Role string `gogm:"name=role"`
 }
 
 // These methods are needed to implement the Edge interface
