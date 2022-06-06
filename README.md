@@ -8,7 +8,7 @@ This repository defines a set of exercises covering:
 
 ## Prerequisites
 
-You need [Go 1.18+](https://go.dev/dl/) installed on your machine.
+You need [Go 1.18+](https://go.dev/dl/) installed on your machine along with [Docker](https://docs.docker.com/get-docker/) to run the Neo4j test containers.
 
 ## Structure
 
