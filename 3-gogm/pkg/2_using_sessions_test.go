@@ -162,7 +162,51 @@ func TestUseSessions(outer *testing.T) {
 	})
 
 	outer.Run("closing remarks", func(t *testing.T) {
+		// create the session
+		sess, err := gogm.G().NewSessionV2(gogm.SessionConfig{
+			AccessMode:   neo4j.AccessModeWrite,
+			DatabaseName: "neo4j",
+		})
+		if err != nil {
+			t.Fatal(err.Error())
+		}
 
+		// always make sure to defer closing the session
+		defer func() {
+			if err = sess.Close(); err != nil {
+				t.Fatal(err.Error())
+			}
+		}()
+
+		// make sure nothing's left from the previous test
+		if err = clearDb(ctx, sess); err != nil {
+			t.Fatal("Failed to clear database, error:", err)
+		}
+		// insert our test data
+		if err = insertData(ctx, sess); err != nil {
+			t.Fatal("Failed to insert data, error:", err)
+		}
+
+		// a very hacky query that avoids using APOC ;)
+		query := `MATCH (p:Person)
+		WITH COLLECT(p.name) as names
+		WITH REDUCE(merged= "" , name IN names | merged + name + ' and ') as joined
+		RETURN LEFT(joined, SIZE(joined) - 5) + " thank you for joining the " + $conference + " Go Workshop!"`
+
+		res, _, err := sess.QueryRaw(ctx, query, map[string]interface{}{
+			// TODO: Oops, I forgot to se the conference name :)
+			"conference": "GraphConnect",
+		})
+		if err != nil {
+			t.Errorf("Did you forget to set $conference?")
+		}
+
+		resStr, ok := res[0][0].(string)
+		if !ok {
+			t.Errorf("Couldn't decode resStr")
+		}
+
+		t.Logf("Query response: %s", resStr)
 	})
 }
 
@@ -173,7 +217,17 @@ func clearDb(ctx context.Context, sess gogm.SessionV2) error {
 }
 
 // Helper that inserts a nice bit of test data
+// Note that in a real scenario GoGM will generate link functions and remove most of this code
 func insertData(ctx context.Context, sess gogm.SessionV2) error {
+	// Florent subgraph
+	florent := &Person{Name: "Florent"}
+	goDriverProject := &Project{Name: "Go Driver"}
+
+	florent2goDriver := &WorksOnEdge{Start: florent, End: goDriverProject}
+	florent.Projects = []*WorksOnEdge{florent2goDriver}
+	goDriverProject.People = []*WorksOnEdge{florent2goDriver}
+
+	// Mindstand subgraph
 	nikita := &Person{Name: "Nikita"}
 	eric := &Person{Name: "Eric"}
 	gogmProject := &Project{Name: "GoGM"}
@@ -186,5 +240,12 @@ func insertData(ctx context.Context, sess gogm.SessionV2) error {
 	eric.Projects = append(eric.Projects, eric2gogm)
 	gogmProject.People = append(gogmProject.People, eric2gogm)
 
-	return sess.SaveDepth(ctx, eric, 2)
+	// the common neo4jTopic
+	neo4jTopic := &Topic{Name: "neo4j"}
+	neo4jTopic.Projects = []*Project{gogmProject, goDriverProject}
+	gogmProject.Topics = []*Topic{neo4jTopic}
+	goDriverProject.Topics = []*Topic{neo4jTopic}
+
+	// save the entire graph
+	return sess.SaveDepth(ctx, neo4jTopic, 2)
 }
