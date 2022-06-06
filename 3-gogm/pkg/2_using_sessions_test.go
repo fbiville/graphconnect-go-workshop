@@ -43,7 +43,11 @@ func TestUseSessions(outer *testing.T) {
 		// the important thing to note is that they must be related on both sides
 		neo4jTopic.Projects = []*Project{gogmProject, goDriverProject}
 		gogmProject.Topics = []*Topic{neo4jTopic}
-		goDriverProject.Topics = []*Topic{neo4jTopic}
+		// TODO: relate the goDriverProject to the neo4jTopic
+
+		if len(goDriverProject.Topics) != 1 || goDriverProject.Topics[0] != neo4jTopic {
+			t.Errorf("Looks like the go driver was not related to the neo4j topic")
+		}
 
 		// now let's create the special edges that store the role each person has to their project
 		ericToGogm := &WorksOnEdge{Start: eric, End: gogmProject, Role: "Lead"}
@@ -128,35 +132,35 @@ func TestUseSessions(outer *testing.T) {
 		// you will notice LoadMap as a member of all nodes. Gogm uses this to track the state of the relationships between saves and loads
 
 		// the following is an example illustrating this
-		var loadedProject Project
-		err = sess.Query(ctx, `match p=(n:Project{name:$name})-[]-(:Person) return p`, map[string]interface{}{
-			"name": "GoGM",
-		}, &loadedProject)
+		var loadedTopic Topic
+		err = sess.Query(ctx, `match p=(:Topic{name:$name})-[]-(:Project) return p`, map[string]interface{}{
+			"name": "neo4j",
+		}, &loadedTopic)
 		if err != nil {
 			t.Fatal("Failed to query the project, error:", err)
 		}
 
-		if len(loadedProject.People) != 2 {
-			t.Fatal("No people were loaded in query")
+		if len(loadedTopic.Projects) != 2 {
+			t.Fatal("No projects were loaded in query")
 		}
 
 		// now we can illustrate removing a relationship
-		// TODO: wipe the people list in loadedProject
+		// TODO: wipe the project list in loadedTopic
 
 		// now we can save the project at a depth of 1
-		if err = sess.SaveDepth(ctx, &loadedProject, 2); err != nil {
+		if err = sess.SaveDepth(ctx, &loadedTopic, 2); err != nil {
 			t.Fatal(err.Error())
 		}
 
 		// now we can load the loaded struct back in 1 more time to see if the relationships reflect
-		var loadedProject2 Topic
+		var loadedTopic2 Topic
 
-		if err = sess.LoadDepth(ctx, &loadedProject2, loadedProject.UUID, 1); err != nil {
+		if err = sess.LoadDepth(ctx, &loadedTopic2, loadedTopic.UUID, 1); err != nil {
 			t.Fatal(err)
 		}
 
 		// the length of projects should only be one now
-		if len(loadedProject2.Projects) == 0 {
+		if len(loadedTopic2.Projects) != 0 {
 			t.Error("length of projects was not equal to 0")
 		}
 	})
@@ -195,7 +199,6 @@ func TestUseSessions(outer *testing.T) {
 
 		res, _, err := sess.QueryRaw(ctx, query, map[string]interface{}{
 			// TODO: Oops, I forgot to se the conference name :)
-			"conference": "GraphConnect",
 		})
 		if err != nil {
 			t.Errorf("Did you forget to set $conference?")

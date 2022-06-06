@@ -50,8 +50,8 @@ func TestInitializeGogm(outer *testing.T) {
 
 // Person defines a person and their relationships for the schema
 type Person struct {
-	// Required (or use gogm.BaseNode)
-	gogm.BaseUUIDNode
+	// TODO: Each node must inherit gogm.BaseUUIDNode (nodes can also inherit gogm.BaseNode)
+
 	// Members
 	Name string `gogm:"name=name;index"`
 	// Relationships
@@ -78,7 +78,7 @@ type Project struct {
 	// Relationships
 	People []*WorksOnEdge `gogm:"direction=incoming;relationship=WORKS_ON"`
 	// TODO: GoGM needs a tag set to assign this struct to the other side of the `RELATES_TO` relationship
-	Topics []*Topic `gogm:"direction=outgoing;relationship=RELATES_TO"`
+	Topics []*Topic
 }
 
 // WorksOnEdge implements gogm.Edge
@@ -88,7 +88,7 @@ type WorksOnEdge struct {
 	Start *Person
 	End   *Project
 	// TODO: Eric was working on this code very late at night and left an error :P
-	Role string `gogm:"name=role"`
+	Role string `gogm:"name=name"`
 }
 
 // These methods are needed to implement the Edge interface
