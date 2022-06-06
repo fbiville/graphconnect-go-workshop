@@ -3,10 +3,11 @@ package workshop_test
 import (
 	"context"
 	"fmt"
-	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 	workshop "graphconnect/go-driver/pkg"
 	"reflect"
 	"testing"
+
+	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 )
 
 func TestNeo4jDriverResultMapping(outer *testing.T) {
@@ -23,7 +24,7 @@ func TestNeo4jDriverResultMapping(outer *testing.T) {
 	}
 	defer func() {
 		if err := neo4jContainer.Terminate(ctx); err != nil {
-			outer.Errorf("Could not start container: %v", err)
+			outer.Errorf("Could not stop container: %v", err)
 		}
 	}()
 

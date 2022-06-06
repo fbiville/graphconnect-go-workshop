@@ -3,7 +3,7 @@ package workshop_gogm
 import (
 	"context"
 	"fmt"
-	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
+
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
@@ -41,8 +41,4 @@ type ContainerConfiguration struct {
 
 func (config ContainerConfiguration) neo4jAuthEnvVar() string {
 	return fmt.Sprintf("%s/%s", config.Username, config.Password)
-}
-
-func (config ContainerConfiguration) neo4jAuthToken() neo4j.AuthToken {
-	return neo4j.BasicAuth(config.Username, config.Password, "")
 }
