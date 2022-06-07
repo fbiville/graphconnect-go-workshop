@@ -49,7 +49,8 @@ func TestNeo4jDriverQueryExecution(outer *testing.T) {
 
 		var err error
 		var result neo4j.Result
-		// TODO: use the correct Session method to run this autocommit query
+		// solution
+		result, err = session.Run(query, map[string]interface{}{})
 
 		if err != nil {
 			t.Errorf("Expected query to successfully execute but did not: %v", err)
@@ -83,8 +84,8 @@ func TestNeo4jDriverQueryExecution(outer *testing.T) {
 
 		var err error
 		var answer any
-		// TODO: remove the next line and use the correct Session method to run this read transaction
-		transactionFunction(nil)
+		// solution
+		answer, err = session.ReadTransaction(transactionFunction)
 
 		if err != nil {
 			t.Errorf("Expected query to successfully execute but did not: %v", err)

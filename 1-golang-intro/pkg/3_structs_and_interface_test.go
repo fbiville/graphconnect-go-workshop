@@ -12,14 +12,14 @@ func TestStructsAndInterfaces(outer *testing.T) {
 	outer.Run("love-struck with structs", func(t *testing.T) {
 		// TODO: first, fix the struct declaration
 		type person struct {
-			name    int
-			address bool
+			name    string
+			address string
 		}
 
 		// TODO: second, instantiate the struct with expected values
 		eric := person{
-			name:    42,
-			address: true,
+			name:    "Eric",
+			address: "Champs-Elysees, Paris FRANCE",
 		}
 
 		// reflection is used instead of == or !=
@@ -36,8 +36,8 @@ func TestStructsAndInterfaces(outer *testing.T) {
 		// TODO: add the missing tag
 		type speaker struct {
 			Nom                  string `json:"name"`
-			Enterprise           string
-			isThisGonnaBeIgnored bool
+			Enterprise           string `json:"company"`
+			isThisGonnaBeIgnored bool   `json:"-"`
 		}
 		// the json package supports pointers too!
 		nikita := &speaker{
@@ -85,7 +85,7 @@ func (chauffeur *neo4jChauffeur) GetDefaultDatabaseName() string {
 	// panic raises an error (like Java's throw)
 	// unlike Java's throw, this is very rarely used!
 	// indeed, errors can be returned as any other values in Go
-	panic("implement me")
+	return chauffeur.defaultDb
 }
 
 func encodeJson(t *testing.T, value any) string {

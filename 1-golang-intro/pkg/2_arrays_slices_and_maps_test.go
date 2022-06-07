@@ -13,7 +13,8 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 		// [3]int is not the same as [5]int
 		values := [3]int{1, 2, 3}
 
-		// TODO: change the relevant array element
+		// solution
+		values[0] = 321
 
 		if values[0] != 321 {
 			t.Errorf("expected first element to equal 321 but was %d", values[0])
@@ -26,7 +27,9 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 		// []int is not the same as [3]int
 		values := []int{1, 2, 3}
 
-		// TODO: append the expected fourth value with... append
+		// solution
+		values = append(values, 42)
+
 		// hint: since the slice sometimes need to grow, it needs to be reallocated and its address will change!
 		// to cope with this problem, make sure to re-assign `values` to the result of append
 		// mySlice := append(mySlice, someValue) is a very common pattern in Go
@@ -49,7 +52,9 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 		}
 		var doubledValues []int
 
-		// TODO: try the range keyword to iterate over `values`
+		for _, curVal := range values {
+			doubledValues = append(doubledValues, curVal*2)
+		}
 		// hint: range produces 1 to 2 values: the current index and the current value
 		// 		 you can ignore the index (and in general any value/parameter/...) with _
 		// 		 e.g.: for _, currentValue := range someSlice { ... }
@@ -73,7 +78,7 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 
 		// TODO: understand and fix the issue (it may take more than 1 test run to realize the failure)
 		// hint: there is a function below that might help!
-		for key := range digits {
+		for _, key := range sortedKeys(digits) {
 			song.WriteString(key)
 			song.WriteString(" ")
 		}

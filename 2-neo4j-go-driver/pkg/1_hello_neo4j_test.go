@@ -56,6 +56,12 @@ func createDriver(t *testing.T, ctx context.Context, container testcontainers.Co
 	}
 	uri := fmt.Sprintf("neo4j://localhost:%d", port.Int())
 	auth := neo4j.BasicAuth(username, password, "")
-	// TODO: create the driver to connect to the running container
-	panic(fmt.Errorf("connect driver to %s with %v", uri, auth))
+
+	// solution
+	driver, err := neo4j.NewDriver(uri, auth)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	return driver
 }

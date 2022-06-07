@@ -43,7 +43,10 @@ func TestUseSessions(outer *testing.T) {
 		// the important thing to note is that they must be related on both sides
 		neo4jTopic.Projects = []*Project{gogmProject, goDriverProject}
 		gogmProject.Topics = []*Topic{neo4jTopic}
-		// TODO: relate the goDriverProject to the neo4jTopic
+
+		// ---SOLUTION---
+		goDriverProject.Topics = append(goDriverProject.Topics, neo4jTopic)
+		neo4jTopic.Projects = append(neo4jTopic.Projects, goDriverProject)
 
 		if len(goDriverProject.Topics) != 1 || goDriverProject.Topics[0] != neo4jTopic {
 			t.Errorf("Looks like the go driver was not related to the neo4j topic")
@@ -145,7 +148,8 @@ func TestUseSessions(outer *testing.T) {
 		}
 
 		// now we can illustrate removing a relationship
-		// TODO: wipe the project list in loadedTopic
+		// SOLUTION
+		loadedTopic.Projects = []*Project{}
 
 		// now we can save the project at a depth of 1
 		if err = sess.SaveDepth(ctx, &loadedTopic, 2); err != nil {

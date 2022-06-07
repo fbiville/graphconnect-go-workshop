@@ -3,6 +3,7 @@ package workshop_test
 import (
 	"context"
 	"fmt"
+	"github.com/neo4j/neo4j-go-driver/v4/neo4j/dbtype"
 	workshop "graphconnect/go-driver/pkg"
 	"reflect"
 	"testing"
@@ -47,14 +48,46 @@ func TestNeo4jDriverResultMapping(outer *testing.T) {
 		names, err := session.ReadTransaction(func(tx neo4j.Transaction) (interface{}, error) {
 			var records []*neo4j.Record
 			query := "MATCH (p:Person)-[:WORKS_ON]->(:Project) RETURN p ORDER BY p.name ASC"
-			// TODO: remove next line and run query + collect records
-			fmt.Println(query)
+			// SOLUTION
+			result, err := tx.Run(query, map[string]interface{}{})
+			if err != nil {
+				t.Fatalf("failed to run query: %s", err.Error())
+			}
+
+			records, err = result.Collect()
+			if err != nil {
+				t.Fatalf("failed to collect records: %s", err.Error())
+			}
 
 			names := make([]string, len(records))
 			for i, record := range records {
 				var name string
-				// TODO: remove next line and extract the name property from the returned nodes
-				fmt.Println(record)
+
+				// SOLUTION
+
+				// first grab the node for the name you returned
+				node, ok := record.Get("p")
+				if !ok {
+					t.Fatal("name key does not exist")
+				}
+
+				// convert to dbnode
+				dbnode, ok := node.(dbtype.Node)
+				if !ok {
+					t.Fatalf("unable to cast %T to dbtype.Node", node)
+				}
+
+				// then extract the property
+				_name, ok := dbnode.Props["name"]
+				if !ok {
+					t.Fatal("property with key name deoes not exist")
+				}
+
+				// now cast to a string
+				name, ok = _name.(string)
+				if !ok {
+					t.Fatalf("unable to ast %T to string", _name)
+				}
 				names[i] = name
 			}
 			return names, nil

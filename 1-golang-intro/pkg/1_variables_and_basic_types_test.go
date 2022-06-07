@@ -47,7 +47,13 @@ func TestVariablesAndBasicTypes(outer *testing.T) {
 		// any is equivalent to Java's Object type
 		var anythingGoes any = true
 
-		// TODO: initialize these variables with the expected values
+		// solution
+		franceIsBacon = true
+		count = 42
+		average = 0.5
+		actorName = "Jane Doe"
+		anythingGoes = "Long live GraphConnect!"
+
 		// do NOT change the assertions below
 
 		if !franceIsBacon {
@@ -78,7 +84,8 @@ func TestVariablesAndBasicTypes(outer *testing.T) {
 		// the variable now stores the address of the answer variable, via the & operator
 		pointingToTheAnswer = &answer
 
-		// TODO: change the answer variable to the expected value
+		// solution
+		answer = 42
 
 		// * dereferences the pointer, i.e. resolves the value at the address of the pointer
 		if *pointingToTheAnswer != 42 {
