@@ -4,7 +4,10 @@
 // Package name ending with _test are only allowed for Go files ending with _test
 package workshop_test
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 // this is a standard Go test
 // it must be a function whose name starts with Test, that accepts a parameter of type *testing.T
@@ -84,5 +87,30 @@ func TestVariablesAndBasicTypes(outer *testing.T) {
 		if *pointingToTheAnswer != 42 {
 			t.Errorf("Expected *pointingToTheAnswer to equal 42 but was %d", *pointingToTheAnswer)
 		}
+	})
+
+	outer.Run("fun with casting", func(t *testing.T) {
+		var neo any = "neo" // any type is shorthand for interface{}
+
+		// the following is the syntax for casting
+		// go will also optionally add ok to check if it succeeded. If it did not and you don't specify ok,
+		// it will panic
+		neoStr, ok := neo.(string)
+		if !ok {
+			t.Fatalf("unable to cast %T to string", neo)
+		}
+
+		fmt.Println("the best character in the matrix was", neoStr)
+
+		var anyMatrixStars any = int(10)
+		var matrixStars int
+
+		// TODO cast anyMatrixStars to matrix stars and check the error
+
+		if matrixStars != 10 {
+			t.Fatalf("matrix is not worth anything but 10/10 stars, did make sure to cast it correctly? anyMatrixStars resolves to %T", anyMatrixStars)
+		}
+
+		fmt.Printf("the matrix got %v/10 stars!", matrixStars)
 	})
 }
