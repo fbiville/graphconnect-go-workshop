@@ -50,7 +50,7 @@ func TestInitializeGogm(outer *testing.T) {
 
 // Person defines a person and their relationships for the schema
 type Person struct {
-	// TODO: Each node must inherit gogm.BaseUUIDNode (nodes can also inherit gogm.BaseNode)
+	// TODO: Each node must embed gogm.BaseUUIDNode (nodes can also embed gogm.BaseNode)
 
 	// Members
 	Name string `gogm:"name=name;index"`
