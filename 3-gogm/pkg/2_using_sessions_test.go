@@ -201,8 +201,9 @@ func TestUseSessions(outer *testing.T) {
 		WITH REDUCE(merged= "" , name IN names | merged + name + ' and ') as joined
 		RETURN LEFT(joined, SIZE(joined) - 5) + " thank you for joining the " + $conference + " Go Workshop!"`
 
+		// SOLUTION
 		res, _, err := sess.QueryRaw(ctx, query, map[string]interface{}{
-			// TODO: Oops, I forgot to se the conference name :)
+			"conference": "GraphConnect",
 		})
 		if err != nil {
 			t.Errorf("Did you forget to set $conference?")
