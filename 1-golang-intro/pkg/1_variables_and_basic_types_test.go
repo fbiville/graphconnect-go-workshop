@@ -37,6 +37,7 @@ func TestVariablesAndBasicTypes(outer *testing.T) {
 		}
 	})
 
+	// Run `go test -v -run TestVariablesAndBasicTypes/'try some built-in types' ./1-golang-intro/...` to check your results :)
 	outer.Run("try some built-in types", func(t *testing.T) {
 		// note for later: the Cypher type system only knows 64-bit integers and floating numbers
 		// the corresponding Go types exposed by the Neo4j driver are int64 and float64
@@ -74,6 +75,7 @@ func TestVariablesAndBasicTypes(outer *testing.T) {
 		}
 	})
 
+	// Run `go test -v -run TestVariablesAndBasicTypes/'let\'s play with pointers some built-in types' ./1-golang-intro/...`
 	outer.Run("let's play with pointers", func(t *testing.T) {
 		answer := 24
 		// below is a pointer to an int, a.k.a. *int, which defaults to a nil address
@@ -89,6 +91,7 @@ func TestVariablesAndBasicTypes(outer *testing.T) {
 		}
 	})
 
+	// Run `go test -v -run TestVariablesAndBasicTypes/'fun with casting' ./1-golang-intro/...`
 	outer.Run("fun with casting", func(t *testing.T) {
 		var neo any = "neo" // any type is shorthand for interface{}
 

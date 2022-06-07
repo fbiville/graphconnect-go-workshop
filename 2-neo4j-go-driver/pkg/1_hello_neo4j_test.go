@@ -31,7 +31,7 @@ func TestNeo4jDriverConnectivity(outer *testing.T) {
 			outer.Fatalf("Could not stop container: %v", err)
 		}
 	}()
-
+	// Run `go test -v -run TestNeo4jDriverConnectivity/'creates a Neo4j driver and verify connectivity' ./2-neo4j-go-driver/...`
 	outer.Run("creates a Neo4j driver and verify connectivity", func(t *testing.T) {
 		// TODO: fix the createDriver function below
 		driver := createDriver(t, ctx, neo4jContainer)

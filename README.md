@@ -20,7 +20,7 @@ If you do not want to use an IDE, you can use the command line to run a
 specific test like this:
 
 ```shell
-go test -v -run TestVariablesAndBasicTypes/'try some built-in types' ./1-golang-intro/... 
+go test -v -run TestVariablesAndBasicTypes/'try some built-in types' ./1-golang-intro/...
 ```
 
 That commands run the test named `try some built-in types`, nested in 

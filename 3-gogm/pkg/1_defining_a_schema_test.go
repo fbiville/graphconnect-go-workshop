@@ -25,7 +25,7 @@ func TestInitializeGogm(outer *testing.T) {
 			outer.Errorf("Could not stop container: %v", err)
 		}
 	}()
-
+	// Run `go test -v -run TestInitializeGogm/'create a gogm instance' ./3-gogm/...`
 	outer.Run("create a gogm instance", func(t *testing.T) {
 		// TODO: below this test, the Person, Topic, and Project have problems, fix them so that GoGM initializes
 

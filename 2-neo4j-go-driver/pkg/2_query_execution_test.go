@@ -33,6 +33,7 @@ func TestNeo4jDriverQueryExecution(outer *testing.T) {
 		}
 	}()
 
+	// Run `go test -v -run TestNeo4jDriverQueryExecution/'runs an auto-commit query' ./2-neo4j-go-driver/...`
 	outer.Run("runs an auto-commit query", func(t *testing.T) {
 		// an auto-commit query automatically starts a transaction on the server side
 		// starting a client-side transaction for autocommit queries is forbidden and fails
@@ -58,7 +59,7 @@ func TestNeo4jDriverQueryExecution(outer *testing.T) {
 			t.Errorf("Expected 42 from %s but got: %v", query, answer)
 		}
 	})
-
+	// Run `go test -v -run TestNeo4jDriverQueryExecution/'runs a read transaction, with parameters' ./2-neo4j-go-driver/...`
 	outer.Run("runs a read transaction, with parameters", func(t *testing.T) {
 		session := driver.NewSession(neo4j.SessionConfig{})
 		defer func() {

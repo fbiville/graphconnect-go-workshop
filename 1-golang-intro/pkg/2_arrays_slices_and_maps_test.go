@@ -7,7 +7,7 @@ import (
 )
 
 func TestArraysSlicesAndMaps(outer *testing.T) {
-
+	// Run `go test -v -run TestArraysSlicesAndMaps/'quick look at arrays' ./1-golang-intro/...`
 	outer.Run("quick look at arrays", func(t *testing.T) {
 		// arrays have a fixed size, which is a part of their type
 		// [3]int is not the same as [5]int
@@ -19,7 +19,7 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 			t.Errorf("expected first element to equal 321 but was %d", values[0])
 		}
 	})
-
+	// Run `go test -v -run TestArraysSlicesAndMaps/'who wants a slice of that?' ./1-golang-intro/...`
 	outer.Run("who wants a slice of that?", func(t *testing.T) {
 		// slices are dynamically-growing lists
 		// they resemble arrays except they don't declare their size
@@ -39,7 +39,7 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 			t.Errorf("expected fourth element to equal 42 but was %d", values[3])
 		}
 	})
-
+	// Run `go test -v -run TestArraysSlicesAndMaps/'let\'s iterate' ./1-golang-intro/...`
 	outer.Run("let's iterate", func(t *testing.T) {
 		// let's pre-allocate a slice of 3 elements
 		values := make([]int, 3)
@@ -60,7 +60,7 @@ func TestArraysSlicesAndMaps(outer *testing.T) {
 			t.Errorf("expected doubled values to be %v, but was: %v", expected, doubledValues)
 		}
 	})
-
+	// Run `go test -v -run TestArraysSlicesAndMaps/'let\'s iterate over maps!' ./1-golang-intro/...`
 	outer.Run("let's iterate over maps!", func(t *testing.T) {
 		// maps (or dictionaries) can be declared as such
 		digits := map[string]int{

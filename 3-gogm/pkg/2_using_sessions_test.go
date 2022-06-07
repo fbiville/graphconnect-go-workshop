@@ -28,6 +28,7 @@ func TestUseSessions(outer *testing.T) {
 		outer.Fatal("error initializing gogm, did you finish 1_defining_a_schema?", err.Error())
 	}
 
+	// Run `go test -v -run TestUseSessions/'save data using gogm' ./3-gogm/...`
 	outer.Run("save data using gogm", func(t *testing.T) {
 		// assemble the graph in memory
 		neo4jTopic := &Topic{Name: "neo4j"}
@@ -101,7 +102,7 @@ func TestUseSessions(outer *testing.T) {
 
 		// Since we deferred closing the session we don't have to do anything else here to close it
 	})
-
+	// Run `go test -v -run TestUseSessions/'loading and changing data using gogm' ./3-gogm/...`
 	outer.Run("loading and changing data using gogm", func(t *testing.T) {
 		// create the session
 		sess, err := gogm.G().NewSessionV2(gogm.SessionConfig{
@@ -164,7 +165,7 @@ func TestUseSessions(outer *testing.T) {
 			t.Error("length of projects was not equal to 0")
 		}
 	})
-
+	// Run `go test -v -run TestUseSessions/'closing remarks' ./3-gogm/...`
 	outer.Run("closing remarks", func(t *testing.T) {
 		// create the session
 		sess, err := gogm.G().NewSessionV2(gogm.SessionConfig{

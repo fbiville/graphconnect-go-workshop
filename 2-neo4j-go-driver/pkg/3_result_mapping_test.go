@@ -35,7 +35,7 @@ func TestNeo4jDriverResultMapping(outer *testing.T) {
 		}
 	}()
 	insertSmallGraph(outer, driver)
-
+	// Run `go test -v -run TestNeo4jDriverResultMapping/'extracts persons working on projects' ./2-neo4j-go-driver/...`
 	outer.Run("extracts persons working on projects", func(t *testing.T) {
 		session := driver.NewSession(neo4j.SessionConfig{})
 		defer func() {
@@ -68,7 +68,7 @@ func TestNeo4jDriverResultMapping(outer *testing.T) {
 			t.Errorf("Expected %v, got: %v", expected, names)
 		}
 	})
-
+	// Run `go test -v -run TestNeo4jDriverResultMapping/'extracts projects, sorted by maintainer count' ./2-neo4j-go-driver/...`
 	outer.Run("extracts projects, sorted by maintainer count", func(t *testing.T) {
 		session := driver.NewSession(neo4j.SessionConfig{})
 		defer func() {

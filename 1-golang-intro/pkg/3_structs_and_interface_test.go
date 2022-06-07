@@ -8,7 +8,7 @@ import (
 )
 
 func TestStructsAndInterfaces(outer *testing.T) {
-
+	// Run `go test -v -run TestStructsAndInterfaces/'love-struck with structs' ./1-golang-intro/...`
 	outer.Run("love-struck with structs", func(t *testing.T) {
 		// TODO: first, fix the struct declaration
 		type person struct {
@@ -31,7 +31,7 @@ func TestStructsAndInterfaces(outer *testing.T) {
 			t.Errorf(`Expected "Champs-Elysees, Paris FRANCE", got %v`, eric.name)
 		}
 	})
-
+	// Run `go test -v -run TestStructsAndInterfaces/'guten Tag(s)' ./1-golang-intro/...`
 	outer.Run("guten Tag(s)", func(t *testing.T) {
 		// TODO: add the missing tag
 		type speaker struct {
@@ -51,7 +51,7 @@ func TestStructsAndInterfaces(outer *testing.T) {
 			t.Errorf("Expected correct JSON to be marshaled, got: %s", result)
 		}
 	})
-
+	// Run `go test -v -run TestStructsAndInterfaces/'a glimpse at interfaces' ./1-golang-intro/...`
 	outer.Run("a glimpse at interfaces", func(t *testing.T) {
 		// TODO: fix Neo4jChauffeur below to return the expected value
 		// note: the cast here is not necessary. It would only fail at compile-time...
