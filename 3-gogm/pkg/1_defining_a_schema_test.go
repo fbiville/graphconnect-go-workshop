@@ -3,10 +3,10 @@ package workshop_gogm
 import (
 	"context"
 	"fmt"
+	gogm "github.com/mindstand/gogm/v2"
 	"reflect"
 	"testing"
 
-	"github.com/mindstand/gogm/v2"
 	"github.com/testcontainers/testcontainers-go"
 )
 

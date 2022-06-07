@@ -2,9 +2,11 @@ package workshop_gogm
 
 import (
 	"context"
+	"fmt"
+	"reflect"
 	"testing"
 
-	"github.com/mindstand/gogm/v2"
+	gogm "github.com/mindstand/gogm/v2"
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 )
 
@@ -128,10 +130,10 @@ func TestUseSessions(outer *testing.T) {
 		// you will notice LoadMap as a member of all nodes. Gogm uses this to track the state of the relationships between saves and loads
 
 		// the following is an example illustrating this
-		var loadedProject Project
+		loadedProject := &Project{}
 		err = sess.Query(ctx, `match p=(n:Project{name:$name})-[]-(:Person) return p`, map[string]interface{}{
 			"name": "GoGM",
-		}, &loadedProject)
+		}, loadedProject)
 		if err != nil {
 			t.Fatal("Failed to query the project, error:", err)
 		}
@@ -142,9 +144,11 @@ func TestUseSessions(outer *testing.T) {
 
 		// now we can illustrate removing a relationship
 		// TODO: wipe the people list in loadedProject
-
+		fmt.Println("----------------------------------")
+		fmt.Printf("project=%v\np1=%v\np2=%v\n",
+			reflect.ValueOf(loadedProject).Pointer(), reflect.ValueOf(loadedProject.People[0].Start).Pointer(), reflect.ValueOf(loadedProject.People[1].Start).Pointer())
 		// now we can save the project at a depth of 1
-		if err = sess.SaveDepth(ctx, &loadedProject, 2); err != nil {
+		if err = sess.SaveDepth(ctx, loadedProject, 1); err != nil {
 			t.Fatal(err.Error())
 		}
 
